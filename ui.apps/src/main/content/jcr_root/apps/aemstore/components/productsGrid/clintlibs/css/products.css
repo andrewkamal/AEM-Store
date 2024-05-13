@@ -1,0 +1,64 @@
+.product-grid-vertical {
+    display: flex;
+    flex-wrap: nowrap; /* Prevent items from wrapping to the next line */
+    overflow-x: auto; /* Add horizontal scrolling if items overflow */
+    gap: 20px; /* Adjust the gap between each product card */
+    padding: 10px; /* Add padding to the container */
+  	flex-direction: row;
+  	align-items: center;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Adjust the minmax values as needed */
+  gap: 1.5%; /* Adjust the gap between grid items */
+  padding: 20px;
+  margin: 3%;
+}
+
+.product-card {
+    flex: 0 0 auto; /* Prevent cards from growing or shrinking */
+    width: 250px; /* Set a fixed width for each product card */
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add box shadow to cards */
+    transition: transform 0.3s ease; /* Add transition effect on hover */
+}
+
+.product-card:hover {
+    transform: translateY(-5px); /* Add a slight upward lift on hover */
+}
+
+.product-card img {
+    width: 100%;
+    max-height: 200px; /* Adjust the maximum height of the product image */
+    object-fit: cover;
+    border-radius: 8px; /* Rounded corners for image */
+}
+
+.product-card h3 {
+    margin-top: 10px;
+    font-size: 18px;
+}
+
+.product-card p {
+    margin-top: 5px;
+    font-size: 14px;
+    color: #666;
+}
+
+.product-card button {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.product-card button:hover {
+    background-color: #0056b3;
+}

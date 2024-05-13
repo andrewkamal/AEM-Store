@@ -1,11 +1,11 @@
-package com.testsite.core.servlets;
+package com.aemstore.core.servlets;
 
 import com.adobe.granite.workflow.WorkflowSession;
 import com.adobe.granite.workflow.exec.WorkflowData;
 import com.adobe.granite.workflow.metadata.MetaDataMap;
 import com.adobe.granite.workflow.model.WorkflowModel;
 import com.google.gson.Gson;
-import com.testsite.core.models.EmailService;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
@@ -29,7 +29,7 @@ Constants.SERVICE_DESCRIPTION + "=Execute Test Workflow Servlet",
         "sling.servlet.paths=" + "/bin/executeworkflow"
         })
 @SlingServletPaths(
-        value = {"/bin/executeworkflow", "/testsite/executeworkflow"} //check and update
+        value = {"/bin/executeworkflow", "/aemstore/executeworkflow"} //check and update
 )
 
 public class ExecuteTestWorkflow extends SlingAllMethodsServlet {

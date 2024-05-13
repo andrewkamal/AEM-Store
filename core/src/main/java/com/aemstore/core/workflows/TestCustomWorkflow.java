@@ -1,4 +1,4 @@
-package com.testsite.core.workflows;
+package com.aemstore.core.workflows;
 
 import com.adobe.granite.workflow.WorkflowSession;
 import com.adobe.granite.workflow.exec.WorkItem;
@@ -6,7 +6,7 @@ import com.adobe.granite.workflow.exec.WorkflowData;
 import com.adobe.granite.workflow.exec.WorkflowProcess;
 import com.adobe.granite.workflow.metadata.MetaDataMap;
 import com.day.commons.datasource.poolservice.DataSourcePool;
-import com.testsite.core.models.EmailService;
+import com.aemstore.core.models.EmailService;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.osgi.framework.Constants;
 import org.osgi.service.component.annotations.Component;
@@ -26,7 +26,7 @@ import java.util.Set;
         immediate = true,
         property = {
                 "process.label" + " = Test Custom Workflow Process",
-                Constants.SERVICE_VENDOR + "=testsite",
+                Constants.SERVICE_VENDOR + "=aemstore",
                 Constants.SERVICE_DESCRIPTION + " = Custom test workflow step"
         }
 )
@@ -83,14 +83,14 @@ public class TestCustomWorkflow implements WorkflowProcess {
                 Node node = (Node) session.getItem(path);
                 String[] processArgs = processArguments.get("PROCESS_ARGS", "string").toString().split(",");
                 MetaDataMap wfd = workItem.getWorkflow().getWorkflowData().getMetaDataMap();
-                for (String wfArgs : processArgs) {
+/*                for (String wfArgs : processArgs) {
                     String[] args = wfArgs.split("=");
                     String prop = args[0];
                     String value = args[1];
                     if (node != null) {
                         wfd.put(prop, value);
                     }
-                }
+                }*/
                 // Posting to the database
                 Set<String> keyset = wfd.keySet();
 

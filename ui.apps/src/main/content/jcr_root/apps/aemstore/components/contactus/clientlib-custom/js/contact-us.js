@@ -48,7 +48,7 @@ function sendEmail() {
 
     console.log(csrfToken)
     // Send POST request to servlet endpoint
-    fetch('/bin/executeworkflow?page=/content/testsite/us/en', {
+    fetch('/bin/executeworkflow?page=/content/aemstore/us/en', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

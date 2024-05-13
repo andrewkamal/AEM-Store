@@ -1,5 +1,6 @@
-package com.testsite.core.servlets;
+package com.aemstore.core.servlets;
 
+import com.aemstore.core.models.EmailService;
 import com.google.gson.Gson;
 import org.apache.sling.api.servlets.HttpConstants;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
@@ -8,13 +9,14 @@ import org.apache.sling.api.servlets.ServletResolverConstants;
 
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
+
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
+
 import java.io.IOException;
-import org.osgi.service.component.annotations.Component;
+
 import org.osgi.service.component.annotations.Reference;
-import com.testsite.core.models.EmailService;
-import org.apache.sling.api.servlets.ServletResolverConstants;
+
 
 @Component(
         service = {Servlet.class},

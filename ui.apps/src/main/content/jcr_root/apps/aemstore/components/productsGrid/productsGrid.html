@@ -1,0 +1,26 @@
+<div data-sly-use.product="${'com.aemstore.core.models.Product' @ rAttribute='TestAttribute'}"></div>
+
+<link rel="stylesheet" href="/apps/aemstore/components/productsGrid/clintlibs/css/products.css?version=v1">
+
+<div  data-sly-list.item="${product.productDetails}" class="product-grid">
+
+    <div>
+        <div class="product-card">
+			<img src="/content/dam/aemstore/testImage.jpg" style="object-fit:contain;" alt="testImage"/>
+
+            <div data-sly-test="${product.isVisible}">
+                <h3>${item.productName}</h3>
+            </div>
+
+            <p>${item.productDescription}</p>
+
+            <button>Add to Cart</button>
+
+            <p>value: ${product.isVisible}</p>
+   			<p>value: ${product.gridClass}</p>
+        </div>
+    </div>
+
+</div>
+
+<!--    <sly data-sly-resource="${resource @ resourceType='/apps/testsite/components/custom/home/item'}"></sly>-->
