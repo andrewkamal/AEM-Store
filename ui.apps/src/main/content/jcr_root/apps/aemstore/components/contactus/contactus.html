@@ -1,0 +1,36 @@
+<div class="cmp-contactus" data-cmp-is="contactus" data-email-read-only="${properties.emailReadOnly}">
+    <h2 class="cmp-contactus__title">Contact Us Component</h2>
+
+    <!-- Clickable Text Content -->
+    <div class="cmp-contactus__item">
+        <p class="cmp-contactus__item-label">Clickable Text Content:</p>
+        <p class="cmp-contactus__item-output" data-cmp-hook-contactus="clickableText">${properties.clickableText}</p>
+    </div>
+
+    <!-- Popup Container (Initially Hidden)  style="display: none;" -->
+    <div class="cmp-contactus__popup">
+        <!-- Email Textbox -->
+        <div class="cmp-contactus__popup-item">
+            <label class="cmp-contactus__popup-label">Preset Email Address:</label>
+            <input class="cmp-contactus__email-field" data-cmp-hook-contactus="presetEmail" type="text" value="${properties.presetEmail}">
+        </div>
+
+        <!-- Message Textarea -->
+        <div class="cmp-contactus__popup-item">
+            <label class="cmp-contactus__popup-label">Message:</label>
+            <textarea class="cmp-contactus__message-field" data-cmp-hook-contactus="message" rows="4" cols="50"></textarea>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="cmp-contactus__popup-item">
+            <button class="cmp-contactus__submit-button">Submit</button>
+        </div>
+    </div>
+   <script type="text/javascript" data-sly-test.emailReadOnly="${properties.emailReadOnly}">
+    var emailReadOnly = "${emailReadOnly @ context='scriptString'}";
+	</script>
+</div>
+<sly data-sly-use.clientlib="/libs/granite/sightly/templates/clientlib.html">
+    <!-- Include the client library -->
+    <sly data-sly-call="${clientlib.js @ categories='testsite.custom'}"/>
+</sly>
