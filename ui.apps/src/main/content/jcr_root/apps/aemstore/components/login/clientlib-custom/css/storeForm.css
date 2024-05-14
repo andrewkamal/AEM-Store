@@ -1,0 +1,25 @@
+.login-container {
+    display: flex;
+    height: 100%;
+}
+
+.login-form {
+    width: 25%;
+    background-color: #ffffff; /* Change to your desired background color */
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.logo-container {
+    flex-grow: 1;
+    background: linear-gradient(to right, #f0f0f0, #d8d8d8); /* Adjust gradient colors as needed */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-container h1 {
+    font-size: 2em;
+    color: #333333; /* Change to your desired text color */
+    margin: 0;
+}
