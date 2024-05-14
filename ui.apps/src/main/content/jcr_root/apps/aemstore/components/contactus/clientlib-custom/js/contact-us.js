@@ -47,7 +47,7 @@ function sendEmail() {
     const password = 'admin';
 
     console.log(csrfToken)
-    // Send POST request to servlet endpoint
+    // Send POST request to servlet endpoint /bin/executeworkflow?page=/content/aemstore/us/en
     fetch('/bin/executeworkflow?page=/content/aemstore/us/en', {
         method: 'POST',
         headers: {
