@@ -1,0 +1,38 @@
+<link rel="stylesheet" href="/apps/aemstore/components/login/clientlib-custom/css/storeForm.css">
+
+
+<div class="cmp-login" data-cmp-is="login" class="login-container">
+
+
+    <form class="cmp-login__popup" class="login-form ">
+		<h2>Login</h2>
+        <!-- Email Textbox -->
+        <div class="cmp-login__popup-item" class="form-group">
+            <label class="cmp-login__popup-label">Email Address</label>
+            <input class="cmp-login__email-field" type="text">
+        </div>
+
+        <!-- Password Textbox -->
+        <div class="cmp-login__popup-item" class="form-group">
+            <label class="cmp-login__popup-label">Password</label>
+            <input class="cmp-login__password-field" type="password">
+        </div>
+
+
+        <!-- Submit Button -->
+        <div class="cmp-login__popup-item" >
+            <button class="cmp-login__login-button" id="login-button" type="submit" class="login-btn">Login</button>
+        </div>
+
+    </form>
+
+	<div class="logo-container">
+		<h1>AEM Store</h1>
+	</div>
+
+</div>
+
+<sly data-sly-use.clientlib="/libs/granite/sightly/templates/clientlib.html">
+    <!-- Include the client library -->
+    <sly data-sly-call="${clientlib.js @ categories='aemstore.custom'}"/>
+</sly>
