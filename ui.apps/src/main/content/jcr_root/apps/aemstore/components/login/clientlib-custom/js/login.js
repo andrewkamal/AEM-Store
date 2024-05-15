@@ -65,7 +65,7 @@ function doLogin() {
 
 // Add event listener to submit button
 document.addEventListener('DOMContentLoaded', function() {
-    const submitButton = document.querySelector('.cmp-login__submit-button');
+    const submitButton = document.getElementById("login-button");
     submitButton.addEventListener('click', function(event) {
         console.log("Clicked !!");
         event.preventDefault();

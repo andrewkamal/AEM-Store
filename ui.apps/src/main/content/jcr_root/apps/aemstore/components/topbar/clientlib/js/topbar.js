@@ -6,10 +6,8 @@ document.addEventListener("DOMContentLoaded", function() {
         if (xhr.readyState === 4 && xhr.status === 200) {
             // Parse JSON response
             var response = JSON.parse(xhr.responseText);
-            if (response.status === "success") {
-
-                // User name retrieved successfully
-                var userName = response.username;
+               // User name retrieved successfully
+                var userName = response.email;
                 if (typeof userName !== 'undefined') {
                     displayUserName(userName);
     				console.log('myVariable is defined');
@@ -17,17 +15,6 @@ document.addEventListener("DOMContentLoaded", function() {
     				console.log('myVariable is not defined');
                     window.location.href = "http://localhost:4502/content/aemstore/language-masters/login.html";
 				}
-
-            } else {
-
-                // Error handling
-
-                var errorMessage = response.message;
-                console.log("ERROR !!");
-                displayErrorMessage(errorMessage);
-
-
-            }
         }
     };
     xhr.send();

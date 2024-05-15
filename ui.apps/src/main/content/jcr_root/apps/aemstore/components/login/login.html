@@ -2,26 +2,29 @@
 
 
 <div class="cmp-login" data-cmp-is="login" class="login-container">
-    <div class="cmp-login__popup" class="login-form ">
+
+
+    <form class="cmp-login__popup" class="login-form ">
+		<h2>Login</h2>
         <!-- Email Textbox -->
-        <div class="cmp-login__popup-item">
-            <label class="cmp-login__popup-label">Email Address:</label>
+        <div class="cmp-login__popup-item" class="form-group">
+            <label class="cmp-login__popup-label">Email Address</label>
             <input class="cmp-login__email-field" type="text">
         </div>
 
         <!-- Password Textbox -->
-        <div class="cmp-login__popup-item">
-            <label class="cmp-login__popup-label">Password:</label>
+        <div class="cmp-login__popup-item" class="form-group">
+            <label class="cmp-login__popup-label">Password</label>
             <input class="cmp-login__password-field" type="password">
         </div>
 
 
         <!-- Submit Button -->
-        <div class="cmp-login__popup-item">
-            <button class="cmp-login__submit-button">Submit</button>
+        <div class="cmp-login__popup-item" >
+            <button class="cmp-login__login-button" id="login-button" type="submit" class="login-btn">Login</button>
         </div>
 
-    </div>
+    </form>
 
 	<div class="logo-container">
 		<h1>AEM Store</h1>

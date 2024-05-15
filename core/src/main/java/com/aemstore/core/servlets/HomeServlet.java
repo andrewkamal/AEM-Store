@@ -1,6 +1,7 @@
 package com.aemstore.core.servlets;
 
 
+import com.aemstore.core.util.Constants;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.servlets.HttpConstants;
@@ -41,15 +42,12 @@ public class HomeServlet extends SlingAllMethodsServlet {
 //        String jsonString = mapper.writeValueAsString(obj);
 
         try {
-
             // Store data in the session
-            String username = (String) session.getAttribute("username");
-            jsonObject.put("status", "success");
-            jsonObject.put("username", username);
 
-
-            log.info("\n ============== SESSION DATA  ==========");
-            log.info("\n ============== username: " + username);
+            jsonObject.put("email", session.getAttribute(Constants.EMAIL_SESSION_KEY));
+            jsonObject.put("firstName", session.getAttribute(Constants.FIRST_NAME_SESSION_KEY));
+            jsonObject.put("lastName", session.getAttribute(Constants.LAST_NAME_SESSION_KEY));
+            jsonObject.put("ID", session.getAttribute(Constants.ID_SESSION_KEY));
 
         }catch (Exception e){
             response.getWriter().write("Error Login: " + e.getMessage());

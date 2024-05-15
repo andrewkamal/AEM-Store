@@ -2,6 +2,9 @@ package com.aemstore.core.servlets;
 
 import com.adobe.granite.crypto.CryptoSupport;
 import com.aemstore.core.models.CustomLoginService;
+import com.aemstore.core.models.User;
+import com.aemstore.core.models.UserService;
+import com.aemstore.core.util.Constants;
 import com.google.gson.Gson;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
@@ -30,7 +33,7 @@ import java.io.IOException;
 public class CustomLogInServlet extends SlingAllMethodsServlet {
 
     @Reference
-    private CustomLoginService loginService;
+    private UserService userService;
 
 
     @Override
@@ -48,20 +51,20 @@ public class CustomLogInServlet extends SlingAllMethodsServlet {
         String password = payload.getPassword();
 
         try {
-
-            if (loginService.checkUser(email , password)){
-
-                // Get the session object
-                HttpSession session = request.getSession();
-                session.setAttribute("username", "First AEMStore User");
-                session.setAttribute("userID", "XXXID");
-
-                //response.sendRedirect("http://localhost:4502/content/aemstore/language-masters/home.html?wcmmode=disabled")
-                // response.sendRedirect(request.getContextPath() + "/dashboard.jsp");
-                response.setStatus(SlingHttpServletResponse.SC_OK);
+            User user = userService.doLogin(email , password);
+            if (user.getID() == -1){
+                response.setStatus(SlingHttpServletResponse.SC_NOT_FOUND);
             }
             else {
-                response.setStatus(SlingHttpServletResponse.SC_NOT_FOUND);
+
+                HttpSession session = request.getSession();
+
+                session.setAttribute(Constants.ID_SESSION_KEY, user.getID());
+                session.setAttribute(Constants.FIRST_NAME_SESSION_KEY, user.getFirstname());
+                session.setAttribute(Constants.LAST_NAME_SESSION_KEY, user.getLastname());
+                session.setAttribute(Constants.EMAIL_SESSION_KEY, user.getEmail());
+
+                response.setStatus(SlingHttpServletResponse.SC_OK);
             }
 
         } catch (Exception e) {
