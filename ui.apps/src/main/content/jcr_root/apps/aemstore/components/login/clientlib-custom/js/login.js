@@ -1,11 +1,3 @@
-// Get reference to the email field
-const emailField = document.querySelector('.cmp-contactus__email-field');
-// Set initial state of email field based on the value passed from AEM
-emailReadOnly = document.querySelector('.cmp-contactus').getAttribute('data-email-read-only')
-emailField.readOnly = (emailReadOnly === 'true');
-console.log(emailReadOnly)
-console.log(emailField.readOnly)
-
 //handle csrf token
 async function getCsrfToken() {
     const response = await fetch('/libs/granite/csrf/token.json');
@@ -25,30 +17,24 @@ async function initializeCsrfToken() {
 
 initializeCsrfToken();
 
-// Function to handle changes in the checkbox state
-function handleCheckboxChange() {
-    // Update read-only attribute of email field based on checkbox state
-    emailField.readOnly = this.checked;
-}
-
 // Function to send email when submit button is clicked
-function sendEmail() {
+function doLogin() {
     // Get values from email and message fields
-    const email = document.querySelector('.cmp-contactus__email-field').value;
-    const message = document.querySelector('.cmp-contactus__message-field').value;
+    const email = document.querySelector('.cmp-login__email-field').value;
+    const message = document.querySelector('.cmp-login__password-field').value;
 
     // Create data object to jsonify
     const data = {
         email: email,
-        message: message
+        password: message
     };
 
     const username = 'admin';
     const password = 'admin';
 
     console.log(csrfToken)
-    // Send POST request to servlet endpoint /bin/executeworkflow?page=/content/aemstore/us/en
-    fetch('/bin/executeworkflow?page=/content/aemstore/us/en', {
+    // Send POST request to servlet endpoint
+    fetch('/bin/v1login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -60,26 +46,29 @@ function sendEmail() {
     .then(response => {
         if (response.ok) {
             // Request successful
-            console.log('Email sent successfully');
+            console.log('Login Successfully');
+        	window.location.href = "http://localhost:4502/content/aemstore/language-masters/home.html";
+        response.message
         } else {
             // Request failed
             response.text().then(errorMessage => {
-                        console.error('Failed to send email:', errorMessage);
+                        console.error('Failed login:', errorMessage);
                     }).catch(error => {
                         console.error('Error retrieving error message:', error);
                     });
                 }
     })
     .catch(error => {
-        console.error('Error sending email:', error);
+        console.error('Error:', error);
     });
 }
 
 // Add event listener to submit button
 document.addEventListener('DOMContentLoaded', function() {
-    const submitButton = document.querySelector('.cmp-contactus__submit-button');
+    const submitButton = document.getElementById("login-button");
     submitButton.addEventListener('click', function(event) {
-        event.preventDefault(); // Prevent default form submission
-        sendEmail(); // Call function to send email
+        console.log("Clicked !!");
+        event.preventDefault();
+        doLogin(); 
     });
 });
