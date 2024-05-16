@@ -2,25 +2,54 @@
 
 <link rel="stylesheet" href="/apps/aemstore/components/productsGrid/clintlibs/css/products.css?version=v1">
 
-<div  data-sly-list.item="${product.productDetails}" class="product-grid">
-
+<div data-sly-list.prod="${product.productDetails}" class="product-grid">
     <div>
         <div class="product-card">
+<<<<<<< Updated upstream
 			<img src="/content/dam/aemstore/testImage.jpg" style="object-fit:contain;" alt="testImage"/>
 
             <div data-sly-test="${product.isVisible}">
                 <h3>${item.productName}</h3>
+=======
+        	<div class="image-container">
+        	<img src="${prod.imagePath}" style="object-fit: contain;" alt="${prod.title}"/>
+			<div data-sly-test="${product.isVisible}">
+            <div id="discount" class="discount-text" >Discount: ${product.discounts}%</div>
+>>>>>>> Stashed changes
             </div>
-
-            <p>${item.productDescription}</p>
-
-            <button>Add to Cart</button>
-
-            <p>value: ${product.isVisible}</p>
-   			<p>value: ${product.gridClass}</p>
+            </div>
+            <h3>${prod.title}</h3>
+            <p>${prod.description}</p>
+            <p>Price: ${prod.price}</p>
+            <p>Quantity: ${prod.quantity}</p>
+            <p>visible?: ${product.isVisible}</p>
+            <p>Price after: ${prod.adjustedPrice}</p>
+            	<sly data-sly-test="${prod.quantity > 0}">
+            	<button class="buy-btn" 
+                    data-title="${prod.title}" 
+                    data-price="${prod.price}" 
+                    onclick="buyProduct(this)">
+                	Buy Now
+            	</button>
+            </sly>
+            <sly data-sly-test="${prod.quantity <= 0}">
+        		<button disabled class="out-btn">Out of Stock</button>
+    		</sly>
         </div>
     </div>
-
 </div>
+<script type="text/javascript" >
 
-<!--    <sly data-sly-resource="${resource @ resourceType='/apps/testsite/components/custom/home/item'}"></sly>-->
+    function buyProduct(button) {
+        // Extract title and price from data attributes
+        const title = button.getAttribute('data-title');
+        const price = button.getAttribute('data-price');
+        const quantity = button.getAttribute('data-quantity');
+
+        // Log the title and price of the product to the console
+		console.log('Type:', typeof quantity);
+        console.log('Type:', typeof price);
+        console.log('Title:', title);
+        console.log('Price:', price);
+    }
+</script>
