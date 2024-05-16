@@ -1,14 +1,23 @@
 package com.aemstore.core.models.impl;
 
-
 import com.aemstore.core.models.Product;
+import com.aemstore.core.models.ProductDetails;
+import com.aemstore.core.models.ProductsService;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.models.annotations.DefaultInjectionStrategy;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.Via;
+import org.apache.sling.models.annotations.injectorspecific.OSGiService;
+import org.apache.sling.models.annotations.injectorspecific.Self;
+import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
+import com.google.gson.Gson;
+
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,35 +30,75 @@ import java.util.Map;
 )
 @JsonRootName("products")
 public class ProductImpl implements Product {
-    final protected static String RESOURCE_TYPE = "/aemstore/components/custom/productsGrid/";
+    protected static final String RESOURCE_TYPE = "aemstore/components/custom/productsGrid";
 
-    @Inject
+    private static final Logger LOG = LoggerFactory.getLogger(ProductImpl.class);
+
+    @Self
+    private SlingHttpServletRequest request;
+
+    @OSGiService
+    private ProductsService productsService;
+
+
+    @ValueMapValue
     @Via("resource")
     private boolean visible;
 
-    @Inject
+    @ValueMapValue
     @Via("resource")
-    private boolean gridClass;
+    private String gridClass;
 
-    public String getGridClass(){
+    @ValueMapValue
+    @Via("resource")
+    private long discounts;
+
+    @ValueMapValue
+    @Via("resource")
+    private long taxes;
+
+    @Override
+    public String getGridClass() {
         return "product-grid-vertical";
     }
+
     @Override
     public boolean getIsVisible() {
         return visible;
     }
 
-
-    @Override
-    public List<Map<String, String>> getProductDetails() {
-        List<Map<String, String>> bookDetailsMap = new ArrayList<>();
-        for (int i = 0; i <= 20; i++) {
-            Map<String, String> bookMap = new HashMap<>();
-            bookMap.put("productName", "Product" + i);
-            bookMap.put("productDescription", "Product Description" + i);
-            bookDetailsMap.add(bookMap);
-        }
-        return bookDetailsMap;
+    public long getDiscounts() {
+        return discounts;
     }
 
+    public long getTaxes() {
+        return taxes;
+    }
+
+    @Override
+    public List<ProductDetails> getProductDetails() {
+        LOG.info("Calling ProductsService to get all products...");
+        List<ProductDetails> products = productsService.getAllProducts(request.getResourceResolver());
+        LOG.info("ProductsService returned {} products", products.size());
+
+        // Calculate and set the adjusted price for each product
+        for (ProductDetails product : products) {
+            double adjustedPrice = getAdjustedPrice(product.getPrice());
+            product.setAdjustedPrice(adjustedPrice);
+            LOG.debug("Product: {}, Adjusted Price: {}", product.getTitle(), adjustedPrice);
+        }
+
+        return products;
+    }
+    public double getAdjustedPrice(double price) {
+        double discountAmount = price * discounts / 100;
+        double taxAmount = price * taxes / 100;
+        double adjustedPrice = price - discountAmount + taxAmount;
+
+        // Format adjusted price to two decimal places
+        DecimalFormat df = new DecimalFormat("#.00");
+        adjustedPrice = Double.parseDouble(df.format(adjustedPrice));
+
+        return adjustedPrice;
+    }
 }

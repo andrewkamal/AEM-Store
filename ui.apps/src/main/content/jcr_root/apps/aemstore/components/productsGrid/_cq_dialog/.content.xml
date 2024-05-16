@@ -20,6 +20,26 @@
                         text="Visible?"
                         uncheckedValue="{Boolean}false"
                         value="{Boolean}true"/>
+                    <discounts
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/form/numberfield"
+                        emptyText="Enter discount"
+                        fieldDescription="Discount for the product"
+                        fieldLabel="Discounts"
+                        max="{Long}100"
+                        min="{Long}0"
+                        name="./discounts"
+                        value="{Long}0"/>
+                    <taxes
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/form/numberfield"
+                        emptyText="Enter tax"
+                        fieldDescription="Tax for the product"
+                        fieldLabel="Taxes"
+                        max="{Long}100"
+                        min="{Long}0"
+                        name="./taxes"
+                        value="{Long}0"/>
                 </items>
             </column>
         </items>

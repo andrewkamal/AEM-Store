@@ -8,5 +8,5 @@ public interface Product {
     String getGridClass();
     boolean getIsVisible();
 
-    List<Map<String, String>> getProductDetails();
+    List<ProductDetails> getProductDetails();
 }

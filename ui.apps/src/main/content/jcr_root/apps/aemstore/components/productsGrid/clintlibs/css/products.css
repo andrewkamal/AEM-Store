@@ -16,6 +16,7 @@
   margin: 3%;
 }
 
+
 .product-card {
     flex: 0 0 auto; /* Prevent cards from growing or shrinking */
     width: 250px; /* Set a fixed width for each product card */
@@ -37,6 +38,20 @@
     border-radius: 8px; /* Rounded corners for image */
 }
 
+.image-container {
+    position: relative;
+}
+
+.discount-text {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: red;
+    color: white;
+    padding: 5px;
+    font-size: 14px;
+}
+
 .product-card h3 {
     margin-top: 10px;
     font-size: 18px;
@@ -48,7 +63,7 @@
     color: #666;
 }
 
-.product-card button {
+.buy-btn {
     margin-top: 15px;
     padding: 10px 20px;
     background-color: #007bff;
@@ -57,6 +72,16 @@
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+}
+
+.out-btn {
+	margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #e30b0b;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    pointer-events: none;
 }
 
 .product-card button:hover {
