@@ -19,8 +19,16 @@ document.addEventListener('DOMContentLoaded', function() {
         return json.token;
     }
 
-	let csrfToken;
 
+    async function getEmail() {
+		const response = await fetch('/bin/sessiontest');
+        const json = await response.json();
+        console.log(json);
+		console.log(json.email);
+        return json.email;
+    }
+
+	let csrfToken;
     async function initializeCsrfToken() {
         try {
             csrfToken = await getCsrfToken();
@@ -29,7 +37,17 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Error fetching CSRF token:', error);
         }
     }
-    
+
+    let Email;
+    async function initializEmail() {
+        try {
+            Email = await getEmail();
+        } catch (error) {
+            console.error('Error fetching Email:', error);
+        }
+    }
+
+    initializEmail();
     initializeCsrfToken();
     function submitProduct() {
         // Get values from fields
@@ -37,6 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const price = parseFloat(priceField.value);
         const description = descriptionField.value;
         const quantity = parseInt(quantityField.value);
+        const sellerEmail = Email;
 
         // Construct FormData object to handle file upload
         const formData = new FormData();
@@ -44,6 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
         formData.append('price', price);
         formData.append('description', description);
         formData.append('quantity', quantity);
+        formData.append('sellerEmail', sellerEmail);
         formData.append('image', imageField.files[0]); // Get the first file from the file input
 		console.log(imageField.files[0]);
         console.log(formData);

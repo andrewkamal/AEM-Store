@@ -52,6 +52,8 @@ public class ProductCreationServlet extends SlingAllMethodsServlet {
                 log.info("\n Quantity= " + quantity);
                 double price = Double.parseDouble(req.getParameter("price"));
                 log.info("\n Price= " + price);
+                String sellerEmail = req.getParameter("sellerEmail");
+                log.info("\n Seller Email= " + sellerEmail);
                 String folderName = null;
                 // Handle the image file
                 Part imagePart = req.getPart("image");
@@ -104,6 +106,7 @@ public class ProductCreationServlet extends SlingAllMethodsServlet {
                                 workflowData.getMetaDataMap().put("description", description);
                                 workflowData.getMetaDataMap().put("quantity", String.valueOf(quantity));
                                 workflowData.getMetaDataMap().put("price", String.valueOf(price));
+                                workflowData.getMetaDataMap().put("sellerEmail", sellerEmail);
                                 log.info("\n ...... Added all metadata items .....");
                                 status = workflowSession.startWorkflow(workflowModel, workflowData).getState();
                         }

@@ -47,7 +47,7 @@ function doLogin() {
         if (response.ok) {
             // Request successful
             console.log('Login Successfully');
-        	window.location.href = "http://localhost:4502/content/aemstore/language-masters/home.html";
+        	window.location.href = "http://localhost:4502/content/aemstore/us/home.html";
         response.message
         } else {
             // Request failed

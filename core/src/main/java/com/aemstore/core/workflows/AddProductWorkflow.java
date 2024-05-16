@@ -57,6 +57,8 @@ public class AddProductWorkflow implements WorkflowProcess {
                 log.info("\n Description= " + description);
                 int quantity = Integer.parseInt(wfd.get("quantity", "0"));
                 log.info("\n Quantity= " + quantity);
+                String sellerEmail = wfd.get("sellerEmail", "string");
+                log.info("\n Seller Email= " + sellerEmail);
 
                 Node imageFolderNode = session.getNode(folderName);
                 // Save product data as properties of the folder
@@ -65,6 +67,7 @@ public class AddProductWorkflow implements WorkflowProcess {
                 imageFolderNode.setProperty("description", description);
                 imageFolderNode.setProperty("quantity", quantity);
                 imageFolderNode.setProperty("imagepath", imagePath);
+                imageFolderNode.setProperty("selleremail", sellerEmail);
                 imageFolderNode.addMixin("mix:versionable"); // Add mixin for versioning
                 session.save();
 
