@@ -2,7 +2,6 @@ package com.aemstore.core.servlets;
 
 import com.adobe.granite.workflow.WorkflowSession;
 import com.adobe.granite.workflow.exec.WorkflowData;
-import com.adobe.granite.workflow.metadata.MetaDataMap;
 import com.adobe.granite.workflow.model.WorkflowModel;
 import com.google.gson.Gson;
 
@@ -14,7 +13,6 @@ import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.apache.sling.servlets.annotations.SlingServletPaths;
 import org.osgi.framework.Constants;
 import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -24,13 +24,13 @@ import java.util.Set;
         service = WorkflowProcess.class,
         immediate = true,
         property = {
-                "process.label" + " = Test Custom Workflow Process",
+                "process.label" + " = Order Mail Workflow Process",
                 Constants.SERVICE_VENDOR + "=aemstore",
-                Constants.SERVICE_DESCRIPTION + " = Custom test workflow step"
+                Constants.SERVICE_DESCRIPTION + " = Order Mail Workflow step"
         }
 )
-public class TestCustomWorkflow implements WorkflowProcess {
-    private static final String INSERT_QUERY = "INSERT INTO userData (userKey, keyData) VALUES (?, ?)";
+public class OrderMailWorkflow implements WorkflowProcess {
+    private static final String INSERT_QUERY = "INSERT INTO userOrder (clientEmail, sellerEmail, orderItem, quantity, price) VALUES (?, ?, ?, ?, ?)";
     private static final Logger log = LoggerFactory.getLogger(TestCustomWorkflow.class);
     @Reference
     private DataSourcePool dataSourceService;
@@ -38,7 +38,7 @@ public class TestCustomWorkflow implements WorkflowProcess {
     private EmailService emailService;
     @Override
     public void execute(WorkItem workItem, WorkflowSession workflowSession, MetaDataMap processArguments) {
-        log.info("\n ==============================================================");
+        log.info("\n ================== Order Mail Workflow ===========================");
         try {
             log.info("\n ============== TRY ==========");
             Connection con = ((DataSource) dataSourceService.getDataSource("mysqlDB")).getConnection();
@@ -48,27 +48,25 @@ public class TestCustomWorkflow implements WorkflowProcess {
             if (workflowData.getPayloadType().equals("JCR_PATH")) {
                 Session session = workflowSession.adaptTo(Session.class);
                 String path = workflowData.getPayload().toString();
-                Node node = (Node) session.getItem(path);
-                String[] processArgs = processArguments.get("PROCESS_ARGS", "string").toString().split(",");
                 MetaDataMap wfd = workItem.getWorkflow().getWorkflowData().getMetaDataMap();
-                // Posting to the database
-                Set<String> keyset = wfd.keySet();
 
-                String email = wfd.get("email").toString();
-                String message = wfd.get("message").toString();
-                postToDB(email,message,con);
-                log.info("Email ->> " + email + "Message ->> " + message);
+                // Posting to the database
+                String clientEmail = wfd.get("clientEmail").toString();
+                String clientMessage = wfd.get("clientMessage").toString();
+                String sellerEmail = wfd.get("sellerEmail").toString();
+                String sellerMessage = wfd.get("sellerMessage").toString();
+                String productItem = wfd.get("productItem").toString();
+                String price = wfd.get("price").toString();
+                String quantity = wfd.get("quantity").toString();
+                postToDB(clientEmail,clientMessage, productItem, quantity, price, con);
                 try {
-                    // Send email using EmailService
-                    emailService.sendEmail(email, "Contact Form Submission", message);
+                    // Send email to client
+                    emailService.sendEmail(clientEmail, "Thank you for Ordering from AEM-Store!", clientMessage);
+                    // Send email to product owner
+                    emailService.sendEmail(sellerEmail, "New Order Placed in AEM-Store", sellerMessage);
                 } catch (Exception e) {
                     log.error("\n An error occurred while sending the mail", e);
                 }
-//                for (String key : keyset) {
-//                    log.info("\n ITEM Key - {}, value - {}", key, wfd.get(key));
-//                    String keyVal = wfd.get(key).toString();
-//                    postToDB(key, keyVal, con);
-//                }
             }
             con.close();
             log.info("\n ================================= Task Completed Successfully ================================");
@@ -76,11 +74,14 @@ public class TestCustomWorkflow implements WorkflowProcess {
             log.error("\n An error occurred while executing the workflow process", e);
         }
     }
-    private void postToDB(String key, String info, Connection conn) {
+    private void postToDB(String clientEmail, String sellerEmail, String product, String quantity, String price, Connection conn) {
         try {
             PreparedStatement stmt = conn.prepareStatement(INSERT_QUERY);
-            stmt.setString(1, key); // Set the first parameter (userKey)
-            stmt.setString(2, info); // Set the second parameter (keyValue)
+            stmt.setString(1, clientEmail);
+            stmt.setString(2, sellerEmail);
+            stmt.setString(3, product);
+            stmt.setString(4, quantity);
+            stmt.setString(5, price);
             int rowsAffected = stmt.executeUpdate();
             log.info("\n {} row(s) affected", rowsAffected);
         } catch (SQLException e) {

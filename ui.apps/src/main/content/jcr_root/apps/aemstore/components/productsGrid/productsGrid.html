@@ -5,17 +5,12 @@
 <div data-sly-list.prod="${product.productDetails}" class="product-grid">
     <div>
         <div class="product-card">
-<<<<<<< Updated upstream
-			<img src="/content/dam/aemstore/testImage.jpg" style="object-fit:contain;" alt="testImage"/>
-
             <div data-sly-test="${product.isVisible}">
                 <h3>${item.productName}</h3>
-=======
         	<div class="image-container">
         	<img src="${prod.imagePath}" style="object-fit: contain;" alt="${prod.title}"/>
 			<div data-sly-test="${product.isVisible}">
             <div id="discount" class="discount-text" >Discount: ${product.discounts}%</div>
->>>>>>> Stashed changes
             </div>
             </div>
             <h3>${prod.title}</h3>

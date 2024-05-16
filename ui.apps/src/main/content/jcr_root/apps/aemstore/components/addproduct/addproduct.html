@@ -1,0 +1,45 @@
+<link rel="stylesheet" href="/apps/aemstore/components/addproduct/clientlib-custom-addproduct/css/addproduct.css">
+
+<div class="addprod">
+    <h2>Add Product</h2>
+
+    <form id="productForm" enctype="multipart/form-data">
+        <!-- Title -->
+        <div class="title">
+            <label>Title:</label>
+            <input type="text" data-cmp-hook-yourcomponent="title" required>
+        </div>
+
+        <!-- Image Upload -->
+        <div class="image">
+            <label>Image:</label>
+            <input type="file" data-cmp-hook-yourcomponent="image" accept="image/*" required>
+        </div>
+
+        <!-- Price -->
+        <div class="price">
+            <label>Price:</label>
+            <input type="number" data-cmp-hook-yourcomponent="price" min="0" step="0.01" required>
+        </div>
+
+        <!-- Description -->
+        <div class="description">
+            <label>Description:</label>
+            <textarea data-cmp-hook-yourcomponent="description" rows="4" cols="50"></textarea>
+        </div>
+
+        <!-- Quantity -->
+        <div class="quantity">
+            <label>Quantity:</label>
+            <input type="number" data-cmp-hook-yourcomponent="quantity" min="0" required>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="submit">
+            <button type="submit">Submit</button>
+        </div>
+    </form>
+</div>
+<script src="/apps/aemstore/components/addproduct/clientlib-custom-addproduct/js/addproduct.js"></script>
+
+</div>

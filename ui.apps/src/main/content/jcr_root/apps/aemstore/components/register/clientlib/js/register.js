@@ -45,6 +45,7 @@ document.addEventListener("DOMContentLoaded", function() {
             if (response.ok) {
                 // Registration successful
                 showSuccessMessage();
+                window.location.href = "http://localhost:4502/content/aemstore/us/login.html";
             } else {
                 const errorText = await response.text();
                 throw new Error(errorText);
