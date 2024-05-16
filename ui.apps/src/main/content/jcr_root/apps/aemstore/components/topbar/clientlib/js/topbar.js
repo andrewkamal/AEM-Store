@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function() {
     				console.log('myVariable is defined');
 				} else {
     				console.log('myVariable is not defined');
-                    window.location.href = "http://localhost:4502/content/aemstore/language-masters/login.html";
+                    //window.location.href = "http://localhost:4502/content/aemstore/language-masters/login.html";
 				}
         }
     };

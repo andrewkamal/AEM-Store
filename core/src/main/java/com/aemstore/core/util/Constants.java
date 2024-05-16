@@ -2,6 +2,9 @@ package com.aemstore.core.util;
 
 public class Constants {
 
+    //products folder path
+    public static final String PRODUCTS_PATH = "/content/dam/aemstore/products";
+
     // DATABASE
     public static final String ID_COLUMN = "id";
     public static final String FIRST_NAME_COLUMN = "fname";
