@@ -1,10 +1,14 @@
-//handle csrf token
+let csrfToken;
+
+if(typeof csrfToken === 'undefined'){
+    initializeCsrfToken();
+}
+
 async function getCsrfToken() {
     const response = await fetch('/libs/granite/csrf/token.json');
     const json = await response.json();
     return json.token;
 }
-let csrfToken;
 
 async function initializeCsrfToken() {
     try {
@@ -14,8 +18,6 @@ async function initializeCsrfToken() {
         console.error('Error fetching CSRF token:', error);
     }
 }
-
-initializeCsrfToken();
 
 // Function to send email when submit button is clicked
 function doLogin() {

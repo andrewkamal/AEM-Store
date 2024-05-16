@@ -5,44 +5,110 @@
 <div data-sly-list.prod="${product.productDetails}" class="product-grid">
     <div>
         <div class="product-card">
-            <div class="image-container">
-            <img src="${prod.imagePath}" style="object-fit: contain;" alt="${prod.title}"/>
-            <div data-sly-test="${product.isVisible}">
+        	<div class="image-container">
+        	<img src="${prod.imagePath}" style="object-fit: contain;" alt="${prod.title}"/>
+			<div data-sly-test="${product.isVisible}">
             <div id="discount" class="discount-text" >Discount: ${product.discounts}%</div>
             </div>
             </div>
             <h3>${prod.title}</h3>
             <p>${prod.description}</p>
-            <p>Price: ${prod.price}</p>
             <p>Quantity: ${prod.quantity}</p>
-            <p>visible?: ${product.isVisible}</p>
+            <p>Price: ${prod.price}</p>
             <p>Price after: ${prod.adjustedPrice}</p>
-                <sly data-sly-test="${prod.quantity > 0}">
-                <button class="buy-btn" 
+            	<sly data-sly-test="${prod.quantity > 0}">
+            	<button class="buy-btn" 
                     data-title="${prod.title}" 
-                    data-price="${prod.price}" 
+                    data-price="${prod.adjustedPrice}"
+					data-sellerE="${prod.sellerEmail}"
+                    data-quantity="${prod.quantity}"
+                    data-folderName="${prod.folderName}"
                     onclick="buyProduct(this)">
-                    Buy Now
-                </button>
+                	Buy Now
+            	</button>
             </sly>
             <sly data-sly-test="${prod.quantity <= 0}">
-                <button disabled class="out-btn">Out of Stock</button>
-            </sly>
+        		<button disabled class="out-btn">Out of Stock</button>
+    		</sly>
         </div>
     </div>
 </div>
 <script type="text/javascript" >
 
-    function buyProduct(button) {
+
+async function getCsrfToken() {
+    const response = await fetch('/libs/granite/csrf/token.json');
+    const json = await response.json();
+    return json.token;
+}
+async function getEmail() {
+        const response = await fetch('/bin/sessiontest');
+        const json = await response.json();
+        console.log(json);
+        console.log(json.email);
+        return json.email;
+    }
+async function initializEmail() {
+        try {
+            Email = await getEmail();
+        } catch (error) {
+            console.error('Error fetching Email:', error);
+        }
+    }
+     initializEmail();
+async function buyProduct(button) {
+
+
         // Extract title and price from data attributes
         const title = button.getAttribute('data-title');
         const price = button.getAttribute('data-price');
-        const quantity = button.getAttribute('data-quantity');
-		alert("Congrats! you have successfully bought this item.");
+        const sellerE= button.getAttribute('data-sellerE');
+        const quantity = 1;
+        const buyerE = Email;
+        const folderName = button.getAttribute('data-folderName');
+
+		// Create JSON object
+        var purchData = {
+            title: title,
+            sellerEmail: sellerE,
+            price: price ,
+            quantity: quantity,
+            folderName: folderName,
+            clientEmail: buyerE
+        };
+
+        try {
+            // Fetch CSRF token
+            const csrfToken = await getCsrfToken();
+
+            // Make POST request using fetch API
+            const response = await fetch('/bin/ordermail?page=/content/aemstore/us/home', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'CSRF-Token': csrfToken // Include CSRF token in headers
+                },
+                body: JSON.stringify(purchData)
+            });
+
+            if (response.ok) {
+                // Registration successful
+                alert("Happy doing business with you!");
+                window.location.reload;
+            } else {
+                const errorText = await response.text();
+                throw new Error(errorText);
+            }
+        } catch (error) {
+            // Error occurred
+            alert("Error: " + error.message);
+        }
         // Log the title and price of the product to the console
-        console.log('Type:', typeof quantity);
-        console.log('Type:', typeof price);
+		console.log('sellerEmail:', sellerE);
         console.log('Title:', title);
         console.log('Price:', price);
+        console.log('buyer:', buyerE);
+		console.log('quantity:', quantity);
+		console.log('folder Name:', folderName);
     }
 </script>

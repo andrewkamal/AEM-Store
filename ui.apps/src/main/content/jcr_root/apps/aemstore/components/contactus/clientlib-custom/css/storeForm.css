@@ -44,17 +44,3 @@
 .login-btn[type="submit"]:hover {
     background-color: #0056b3;
 }
-
-.logo-container {
-    flex-grow: 1;
-    background: linear-gradient(to right, #333, #595959);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.logo-container h1 {
-    font-size: 5em;
-    color: #ffffff;
-    margin: 0;
-}

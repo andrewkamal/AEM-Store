@@ -1,33 +1,60 @@
 document.addEventListener("DOMContentLoaded", function() {
-    // Make AJAX request to servlet
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", "/bin/sessiontest", true);
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            // Parse JSON response
-            var response = JSON.parse(xhr.responseText);
-               // User name retrieved successfully
-                var userName = response.email;
-                if (typeof userName !== 'undefined') {
-                    displayUserName(userName);
-    				console.log('myVariable is defined');
-				} else {
-    				console.log('myVariable is not defined');
-                    //window.location.href = "http://localhost:4502/content/aemstore/language-masters/login.html";
-				}
-        }
-    };
-    xhr.send();
+    initUserName();
+    logoutHandler();
 });
 
-function displayUserName(userName) {
-    // Display the user name
-    var userNameElement = document.getElementById("username-display");
-    userNameElement.textContent = "Welcome, " + userName + "!";
+let Email;
+async function getEmail() {
+    const response = await fetch('/bin/sessiontest');
+    const json = await response.json();
+    console.log(json);
+    console.log(json.email);
+    return json.email;
 }
 
-function displayErrorMessage(errorMessage) {
-    // Display error message
-    var errorElement = document.getElementById("username-display");
-    errorElement.textContent = "Error: " + errorMessage;
+async function initUserName() {
+    try {
+        email = await getEmail();
+        console.log(email);
+        displayUserName(email);
+    } catch (error) {
+        console.error('Error fetching Email:', error);
+    }
+}
+
+
+
+function displayUserName(object) {
+    // Display the user name
+    var userNameElement = document.getElementById("username-display");
+    if(typeof object !== 'undefined' || object === null){
+        userNameElement.textContent = "Welcome, " + object + "!";
+    }else{
+        userNameElement.textContent = "Please login";
+		window.location.href = "http://localhost:4502/content/aemstore/us/login.html";
+    }
+
+}
+
+function logoutHandler() {
+    document.getElementById("logout").addEventListener("click", function(event) {
+    event.preventDefault();
+    doLogout();
+    });
+}
+
+
+function doLogout() {
+    return fetch('/bin/v1logout')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            console.log('logging out..');
+			window.location.href = "http://localhost:4502/content/aemstore/us/login.html";
+            return response.json();
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+        });
 }

@@ -55,15 +55,15 @@ public class OrderMailWorkflow implements WorkflowProcess {
                 String clientMessage = wfd.get("clientMessage").toString();
                 String sellerEmail = wfd.get("sellerEmail").toString();
                 String sellerMessage = wfd.get("sellerMessage").toString();
-                String productItem = wfd.get("productItem").toString();
+                String productItem = wfd.get("folderName").toString();
                 String price = wfd.get("price").toString();
                 String quantity = wfd.get("quantity").toString();
-                postToDB(clientEmail,clientMessage, productItem, quantity, price, con);
+                postToDB(clientEmail,sellerEmail, productItem, quantity, price, con);
                 try {
-                    // Send email to client
-                    emailService.sendEmail(clientEmail, "Thank you for Ordering from AEM-Store!", clientMessage);
                     // Send email to product owner
                     emailService.sendEmail(sellerEmail, "New Order Placed in AEM-Store", sellerMessage);
+                    // Send email to client
+                    emailService.sendEmail(clientEmail, "Thank you for Ordering from AEM-Store!", clientMessage);
                 } catch (Exception e) {
                     log.error("\n An error occurred while sending the mail", e);
                 }

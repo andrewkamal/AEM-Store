@@ -10,13 +10,15 @@ public class ProductDetails {
     private int quantity;
     private String imagePath;
     private Double adjustedPrice = -1.0;
-    public ProductDetails(String folderName, String title, String description, Double price, int quantity) {
+    private String sellerEmail;
+    public ProductDetails(String folderName, String title, String description, Double price, int quantity, String sellerEmail) {
         this.folderName = folderName;
         this.title = title;
         this.description = description;
         this.price = price;
         this.quantity = quantity;
         this.imagePath = String.format("%s/%s/image.jpg", Constants.PRODUCTS_PATH, folderName);
+        this.sellerEmail = sellerEmail;
     }
 
     public String getFolderName() {
@@ -47,4 +49,5 @@ public class ProductDetails {
 
     public void setAdjustedPrice(Double adjustedPrice) { this.adjustedPrice = adjustedPrice; }
 
+    public String getSellerEmail() { return sellerEmail; };
 }

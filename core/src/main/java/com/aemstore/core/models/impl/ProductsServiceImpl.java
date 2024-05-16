@@ -49,7 +49,8 @@ public class ProductsServiceImpl implements ProductsService{
                 String description = node.getProperty("description").getString();
                 Double price = node.getProperty("price").getDouble();
                 int quantity = (int) node.getProperty("quantity").getLong();
-                products.add(new ProductDetails(folderName, title , description, price, quantity));
+                String sellerEmail = node.getProperty("selleremail").getString();
+                products.add(new ProductDetails(folderName, title , description, price, quantity, sellerEmail));
 
             } catch (RepositoryException e) {
                 LOG.info("\n=========== ERROR ===========");
