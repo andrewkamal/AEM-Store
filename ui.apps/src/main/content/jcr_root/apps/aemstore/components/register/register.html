@@ -1,9 +1,11 @@
 <sly data-sly-use.clientlib="/libs/granite/sightly/templates/clientlib.html">
     <sly data-sly-call="${clientlib.css @ categories='aemstore.register'}"/>
 </sly>
-<div class="register-component">
-    <h2>Create an Account</h2>
+<div class="register-component" class="form-bg">
+
     <form id="register-form" class="register-form">
+		<h1>AEM Store</h1>
+		<h2>Create an Account</h2>
         <div class="form-group">
             <label for="firstname">First name:</label>
             <input type="text" id="firstname" name="firstname" required>

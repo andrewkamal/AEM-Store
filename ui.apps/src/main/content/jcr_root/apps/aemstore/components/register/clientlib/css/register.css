@@ -1,4 +1,9 @@
 /* register.css */
+.form-bg {
+   background: linear-gradient(to right, #333, #595959);
+   padding: 3%;
+}
+
 .register-form {
     max-width: 400px;
     margin: 0 auto;

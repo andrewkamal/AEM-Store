@@ -93,8 +93,7 @@ async function buyProduct(button) {
 
             if (response.ok) {
                 // Registration successful
-                alert("Happy doing business with you!");
-                window.location.reload;
+                if(!alert('Happy doing business with you!')){window.location.reload();}
             } else {
                 const errorText = await response.text();
                 throw new Error(errorText);

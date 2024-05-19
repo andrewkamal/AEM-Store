@@ -58,9 +58,9 @@ public class OrderMailServlet extends SlingAllMethodsServlet {
         log.info("\n Price= " + price);
         String quantity = Opayload.getQuantity();
         log.info("\n Quantity= " + quantity);
-        String clientMessage = "Your order for the item " + title + "has been placed and will be delivered soon. \nTotal price: " + price + "EGP. \nPayment Method: COD. \nQuantity: " + quantity;
+        String clientMessage = "Your order for the item " + title + " has been placed and will be delivered soon. \nTotal price: " + price + "EGP. \nPayment Method: COD. \nQuantity: " + quantity;
         log.info("\n Client Message= " + clientMessage);
-        String sellerMessage = "An order for the item " + title + "has been placed by " +clientEmail + ". \nTotal price: " + price + "EGP. \nPayment Method: COD. \nQuantity: " + quantity;
+        String sellerMessage = "An order for the item " + title + " has been placed by " +clientEmail + ". \nTotal price: " + price + "EGP. \nPayment Method: COD. \nQuantity: " + quantity;
         log.info("\n Seller Message= " + sellerMessage);
         String status = "Workflow Executing";
         final ResourceResolver resourceResolver = req.getResourceResolver();
