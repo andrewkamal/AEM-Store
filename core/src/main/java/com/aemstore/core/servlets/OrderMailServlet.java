@@ -10,15 +10,18 @@ import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
+import org.apache.sling.models.annotations.injectorspecific.OSGiService;
 import org.apache.sling.servlets.annotations.SlingServletPaths;
 import org.osgi.framework.Constants;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 import java.io.IOException;
+import com.aemstore.core.models.ProductsService;
 
 @Component(service = Servlet.class,
         property = {
@@ -31,7 +34,9 @@ import java.io.IOException;
 )
 
 public class OrderMailServlet extends SlingAllMethodsServlet {
-    private static Logger log = LoggerFactory.getLogger(ProductCreationServlet.class);
+    private static Logger log = LoggerFactory.getLogger(OrderMailServlet.class);
+    @Reference
+    ProductsService prod;
 
     @Override
     protected void doPost(final SlingHttpServletRequest req, final SlingHttpServletResponse res) throws ServletException, IOException{
@@ -59,6 +64,8 @@ public class OrderMailServlet extends SlingAllMethodsServlet {
         log.info("\n Seller Message= " + sellerMessage);
         String status = "Workflow Executing";
         final ResourceResolver resourceResolver = req.getResourceResolver();
+        log.info("\n Begin the product modification");
+        prod.modifyProduct(folderName,quantity,resourceResolver);
         String payload = req.getRequestParameter("page").getString();
         try {
             if (StringUtils.isNotBlank(payload)) {

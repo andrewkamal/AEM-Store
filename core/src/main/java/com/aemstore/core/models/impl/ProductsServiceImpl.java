@@ -17,10 +17,9 @@ import org.slf4j.LoggerFactory;
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
+import static java.lang.Integer.parseInt;
 
 @Component(service = ProductsService.class, immediate = true)
 public class ProductsServiceImpl implements ProductsService{
@@ -59,6 +58,32 @@ public class ProductsServiceImpl implements ProductsService{
         }
         return products;
     }
+    public void modifyProduct(String folderName, String quantity, ResourceResolver resourceResolver) {
+        LOG.info("\n========================== Modify Products ================================");
+        Map<String, String> queryMap = new HashMap<>();
+        queryMap.put("path", Constants.PRODUCTS_PATH);
+        queryMap.put("type", "sling:OrderedFolder");
 
+        Query query = queryBuilder.createQuery(PredicateGroup.create(queryMap), resourceResolver.adaptTo(Session.class));
+        SearchResult result = query.getResult();
+        LOG.info("\n Will Enter the FOR LOOP");
+        for (com.day.cq.search.result.Hit hit : result.getHits()) {
+            try {
+                LOG.info("\n ============= TRY ============");
+                Node node = hit.getNode();
+                if (Objects.equals(folderName, node.getName())) {
+                    LOG.info("\n==========Product Found==========");
+                    int oldQuantity = (int) node.getProperty("quantity").getLong();
+                    int newQuantity = oldQuantity - parseInt(quantity);
+                    node.setProperty("quantity", newQuantity);
+                    LOG.info("\n=========== Done ===========");
+                    LOG.info("" + newQuantity);
+                }
 
+            } catch (RepositoryException e) {
+                LOG.info("\n=========== ERROR ===========");
+                LOG.info("\n ===========" + e.getMessage());
+            }
+        }
+    }
 }

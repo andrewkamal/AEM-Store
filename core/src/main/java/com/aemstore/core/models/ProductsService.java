@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface ProductsService {
     List<ProductDetails> getAllProducts(ResourceResolver resourceResolver);
+    void modifyProduct(String folderName, String quantity, ResourceResolver resourceResolver);
 }
